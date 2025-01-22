@@ -1,0 +1,83 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder", "metrics", "relationJoins"]
+}
+
+generator kysely {
+  provider = "prisma-kysely"
+
+  output       = "../../src/libs/prisma/kysely"
+  fileName     = "types.ts"
+  enumFileName = "enums.ts"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  username String @unique
+
+  userToGroup UserToGroup[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Item {
+  id Int @id @default(autoincrement())
+
+  title String
+
+  itemToGroup ItemToGroup[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("items")
+}
+
+model Group {
+  id Int @id @default(autoincrement())
+
+  title String
+
+  userToGroup UserToGroup[]
+  itemToGroup ItemToGroup[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("groups")
+}
+
+model UserToGroup {
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int   @map("user_id")
+  group   Group @relation(fields: [groupId], references: [id])
+  groupId Int   @map("group_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@id([userId, groupId])
+  @@map("users_to_groups")
+}
+
+model ItemToGroup {
+  item    Item  @relation(fields: [itemId], references: [id])
+  itemId  Int   @map("item_id")
+  group   Group @relation(fields: [groupId], references: [id])
+  groupId Int   @map("group_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@id([itemId, groupId])
+  @@map("items_to_groups")
+}
