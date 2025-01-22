@@ -8,6 +8,14 @@ export class UserRepository {
 
   constructor(private readonly prisma: PrismaService) {}
 
+  async findById(params: { id: number }) {
+    const result = await this.prisma.user.findUnique({
+      where: { id: params.id },
+    });
+
+    return result;
+  }
+
   async findByUsername(params: { username: string }) {
     const result = await this.prisma.user.findUnique({
       where: { username: params.username },

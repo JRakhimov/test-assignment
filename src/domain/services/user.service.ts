@@ -12,7 +12,7 @@ export class UserService {
     const userExists = await this.userRepository.findByUsername(params);
 
     if (userExists) {
-      throw new BadRequestException('User with provided username already exists');
+      throw new BadRequestException(`Username "${params.username}" already exists`);
     }
 
     return this.userRepository.create(params);

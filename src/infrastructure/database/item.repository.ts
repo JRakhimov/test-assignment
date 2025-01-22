@@ -8,6 +8,14 @@ export class ItemRepository {
 
   constructor(private readonly prisma: PrismaService) {}
 
+  async findById(params: { id: number }) {
+    const result = await this.prisma.item.findUnique({
+      where: { id: params.id },
+    });
+
+    return result;
+  }
+
   async create(params: CreateItemInput) {
     const result = await this.prisma.item.create({
       data: { title: params.title },

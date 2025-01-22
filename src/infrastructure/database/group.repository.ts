@@ -8,6 +8,14 @@ export class GroupRepository {
 
   constructor(private readonly prisma: PrismaService) {}
 
+  async findById(params: { id: number }) {
+    const result = await this.prisma.group.findUnique({
+      where: { id: params.id },
+    });
+
+    return result;
+  }
+
   async create(params: CreateGroupInput) {
     const result = await this.prisma.group.create({
       data: { title: params.title },

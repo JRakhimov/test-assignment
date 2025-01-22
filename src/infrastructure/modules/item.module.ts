@@ -7,5 +7,6 @@ import { Module } from '@nestjs/common';
 @Module({
   controllers: [ItemController],
   providers: [ItemAppService, ItemService, ItemRepository],
+  exports: [ItemRepository],
 })
 export class ItemModule {}
