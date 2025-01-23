@@ -14,6 +14,8 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
+    'no-await-in-loop': 'off',
+    'no-restricted-syntax': 'off',
     'max-classes-per-file': 'off',
     'class-methods-use-this': 'off',
     'import/prefer-default-export': 'off',

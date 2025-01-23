@@ -5,7 +5,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder", "metrics", "relationJoins"]
+  previewFeatures = ["driverAdapters", "prismaSchemaFolder", "metrics", "relationJoins"]
 }
 
 generator kysely {

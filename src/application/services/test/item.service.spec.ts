@@ -22,7 +22,7 @@ describe('ItemAppService', () => {
     itemService = module.get<ItemService>(ItemService);
   });
 
-  it('should create a item successfully', async () => {
+  it('should create an item successfully', async () => {
     const params = { title: 'test_item' };
 
     const result = await itemService.createItem(params);

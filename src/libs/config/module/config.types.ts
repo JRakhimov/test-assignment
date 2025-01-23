@@ -24,9 +24,9 @@ export class BaseConfig {
   nodeEnv: NodeENV;
 
   /**
-   * @default process.env.APP_ENV
+   * @default process.env.APP_ENV ?? AppENV.local
    */
   @IsString()
-  @ConfigDefaultValue(process.env.APP_ENV)
+  @ConfigDefaultValue(process.env.APP_ENV ?? AppENV.local)
   appEnv: string;
 }
