@@ -1,6 +1,4 @@
 config:
-  # This is a test server run by team Artillery
-  # It's designed to be highly scalable
   target: http://localhost:3000
   phases:
     - duration: 60
@@ -15,9 +13,8 @@ config:
       arrivalRate: 10
       rampTo: 30
       name: Spike phase
-  # Load & configure a couple of useful plugins
-  # https://docs.art/reference/extensions
   plugins:
+    fake-data: {}
     ensure: {}
     apdex: {}
     metrics-by-endpoint: {}
@@ -33,3 +30,41 @@ scenarios:
           - get:
               url: '/'
         count: 100
+      - post:
+          url: '/users'
+          capture:
+            - json: '$.id'
+              as: 'userId'
+            - json: '$.username'
+              as: 'username'
+          json:
+            username: '{{ $randUserName() }}'
+      - post:
+          url: '/groups'
+          capture:
+            - json: '$.id'
+              as: 'groupId'
+          json:
+            title: '{{ $randUserName() }}'
+      - post:
+          url: '/items'
+          capture:
+            - json: '$.id'
+              as: 'itemAId'
+          json:
+            title: '{{ $randUserName() }}'
+      - post:
+          url: '/items'
+          capture:
+            - json: '$.id'
+              as: 'itemBId'
+          json:
+            title: '{{ $randUserName() }}'
+      - post:
+          url: '/{{ groupId }}/users/{{ userId }}'
+      - post:
+          url: '/{{ groupId }}/items/{{ itemAId }}'
+      - post:
+          url: '/{{ groupId }}/users/{{ itemBId }}'
+      - get:
+          url: '/items?username={{ username }}'
